@@ -1,0 +1,9 @@
+# on ignore les node-modules
+
+node_modules/
+
+backend/node_modules/
+
+# on ignore le fichier mdp mongodb
+
+backend/*.txt
