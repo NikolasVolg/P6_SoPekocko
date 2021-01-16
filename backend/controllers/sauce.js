@@ -77,19 +77,50 @@ exports.getAllSauce = (req, res, next) => {
 // updateOne 
 
 exports.likeSauce = (req, res) => {
+
+    let sauce;
+
+    //Je cherche la sauce
     Sauce.findOne({
-        _id: req.params.id //je trouve la sauce
+        _id: req.params.id
 
     }).then(
-        (sauce) => {
-            res.status(200).json(sauce);
-            if (likes) {
-                Sauce.updateOne({ _id: req.params.id }, {
+        (sauceTrouvee) => {
+            sauce = sauceTrouvee //résultat sauce récupéré
+                // Si j'aime = 1 
+            if (req.body.like === 1) {
+                sauce.updateOne({
 
-                    $inc: { likes: +1 },
-                    $push: { userLikes: userId }
-                })
+                        $inc: { likes: +1 },
+                        $push: { usersLiked: req.body.userId }
+                    })
+                    .then(() => {
+                        res.status(200).json({ message: "sauce likée" });
+
+                    }).catch(
+                        (error) => {
+                            res.status(400).json({ error: error });
+                        });
+            } else if (req.body.like === -1) {
+                // si j'aime = -1 
+                sauce.updateOne({
+
+                        $inc: { disLikes: +1 }, // a verifier
+                        $push: { usersDisliked: req.body.userId }
+                    })
+                    .then(() => {
+                        res.status(200).json({ message: "sauce dislikée" });
+
+                    }).catch(
+                        (error) => {
+                            res.status(400).json({ error: error });
+                        });
+            } else {
+                // si j'aime = 0
+                // ben tu fais rien parce que y a rien à faire. Va donc manger une pizza XD
             }
+
+
         }).catch(
         (error) => {
             res.status(404).json({ error: error });
