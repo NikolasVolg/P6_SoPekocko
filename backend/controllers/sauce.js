@@ -66,7 +66,7 @@ exports.getAllSauce = (req, res, next) => {
 
 //------------------------- middleware like/disLike---------------------------------------
 
-// Qu'est-ce que je reçois du front ? Boolean ?
+// Qu'est-ce que je reçois du front ?????
 
 // Trouver la sauce dans la BDD
 
@@ -76,23 +76,22 @@ exports.getAllSauce = (req, res, next) => {
 
 // updateOne 
 
-exports.likeSauce = (req, res, next) => {
+exports.likeSauce = (req, res) => {
     Sauce.findOne({
-        _id: req.params.id
+        _id: req.params.id //je trouve la sauce
+
     }).then(
         (sauce) => {
             res.status(200).json(sauce);
-            Sauce.updateOne({ _id: req.params.id }, {...sauceObject, _id: req.params.id })
-            if (usersDisliked) {
-                this.sauce.likes++;
-            } else if (usersDisliked) {
-                this.sauce.likes--;
-            } else {
-                return plouf;
-            };
+            if (likes) {
+                Sauce.updateOne({ _id: req.params.id }, {
+
+                    $inc: { likes: +1 },
+                    $push: { userLikes: userId }
+                })
+            }
         }).catch(
         (error) => {
             res.status(404).json({ error: error });
         });
-
 };
