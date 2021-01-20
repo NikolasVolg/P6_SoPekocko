@@ -81,7 +81,7 @@ exports.likeSauce = (req, res, next) => {
         (sauceTrouvee) => {
             sauce = sauceTrouvee //résultat sauce récupéré
 
-            if (req.body.like === 1) { // Si j'aime = 1 
+            if (req.params.id === 1) { // Si j'aime = 1 
                 sauce.updateOne({
 
                         $inc: { likes: +1 }, //incrémente likes de 1
@@ -94,6 +94,7 @@ exports.likeSauce = (req, res, next) => {
                         (error) => {
                             res.status(400).json({ error: error });
                         });
+
             } else if (req.body.like === -1) { // si j'aime = -1 
 
                 sauce.updateOne({
@@ -108,14 +109,13 @@ exports.likeSauce = (req, res, next) => {
                         (error) => {
                             res.status(400).json({ error: error });
                         });
-            } else if (like === 0) { //Si j'aime = 0 alors ?
-                // si ( ?  est présent  .. ? ))  alors je le retire du tableau en question et like -1
-                // si ( ? est présent  ...  ? ) alors je le retire du tableau en question et dislike -1 
 
-                if (req.body.like === 0) { // Si user retire son like
+            } else if (like === 0) { //Si j'aime = 0 alors ?
+
+                if (userId == bodyUser) { // Si user retire son like
 
                     sauce.updateOne({
-
+                            //include() array 
                             $inc: { likes: -1 }, //décrémente likes de 1
                             $pull: { usersLiked: bodyUser } // retire le like du user dans la BDD
                         })
