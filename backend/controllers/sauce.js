@@ -66,7 +66,7 @@ exports.getAllSauce = (req, res, next) => {
         );
 };
 
-//------------------------- middleware like/disLike---------------------------------------
+//------------------------- like/disLike---------------------------------------
 
 exports.likeSauce = (req, res, next) => {
 
@@ -112,10 +112,12 @@ exports.likeSauce = (req, res, next) => {
 
             } else if (like === 0) { //Si j'aime = 0 alors ?
 
-                if (userId == bodyUser) { // Si user retire son like
+                if (usersLiked.includes(bodyUser)) {
+
+                    console.log(usersLiked.includes(bodyUser));
 
                     sauce.updateOne({
-                            //include() array 
+
                             $inc: { likes: -1 }, //décrémente likes de 1
                             $pull: { usersLiked: bodyUser } // retire le like du user dans la BDD
                         })
@@ -127,6 +129,7 @@ exports.likeSauce = (req, res, next) => {
                                 res.status(400).json({ error: error });
                             });
                 };
+
                 if (res.body.usersDisliked) {
 
                     //si user retire son dislike, décrémentes dislike de 1 et retire le dislike user de la BDD
