@@ -81,11 +81,11 @@ exports.likeSauce = (req, res, next) => {
         (sauceTrouvee) => {
             sauce = sauceTrouvee //résultat sauce récupéré
 
-            if (req.params.id === 1) { // Si j'aime = 1 
+            if (req.body.like === 1) { // Si j'aime = 1 
                 sauce.updateOne({
 
-                        $inc: { likes: +1 }, //incrémente likes de 1
-                        $push: { usersLiked: bodyUser } //ajout 1 au profil user
+                        $inc: { likes: +1 }, //incrémente likes +1
+                        $push: { usersLiked: bodyUser } //ajoute le like au tableau
                     })
                     .then(() => {
                         res.status(200).json({ message: "sauce likée" });
@@ -99,8 +99,8 @@ exports.likeSauce = (req, res, next) => {
 
                 sauce.updateOne({
 
-                        $inc: { disLikes: +1 }, // a verifier
-                        $push: { usersDisliked: bodyUser }
+                        $inc: { disLikes: +1 }, //incrément Dislike +1
+                        $push: { usersDisliked: bodyUser } // ajoute le dislike au tableau
                     })
                     .then(() => {
                         res.status(200).json({ message: "sauce dislikée" });
@@ -110,16 +110,14 @@ exports.likeSauce = (req, res, next) => {
                             res.status(400).json({ error: error });
                         });
 
-            } else if (like === 0) { //Si j'aime = 0 alors ?
+            } else if (req.body.like === 0) { //Si j'aime = 0 alors ?
 
                 if (usersLiked.includes(bodyUser)) {
-
-                    console.log(usersLiked.includes(bodyUser));
 
                     sauce.updateOne({
 
                             $inc: { likes: -1 }, //décrémente likes de 1
-                            $pull: { usersLiked: bodyUser } // retire le like du user dans la BDD
+                            $pull: { usersLiked: bodyUser } // retire le like du tableau
                         })
                         .then(() => {
                             res.status(200).json({ message: "like retiré" });
