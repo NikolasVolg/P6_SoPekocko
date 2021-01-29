@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const Joi = require('joi');
+
 
 const sauceSchema = mongoose.Schema({
     userId: { type: String, required: true },
@@ -9,7 +11,7 @@ const sauceSchema = mongoose.Schema({
     imageUrl: { type: String, required: true },
     heat: { type: Number, required: true },
     likes: { type: Number, default: 0 },
-    disLikes: { type: Number, default: 0 },
+    dislikes: { type: Number, default: 0 },
     usersLiked: [String],
     usersDisliked: [String],
 });

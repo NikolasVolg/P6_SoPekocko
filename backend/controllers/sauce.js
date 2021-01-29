@@ -72,6 +72,7 @@ exports.likeSauce = (req, res, next) => {
 
     let sauce;
     let bodyUser = req.body.userId;
+    const like = req.body.like;
 
     //Je cherche la sauce
     Sauce.findOne({
@@ -79,9 +80,10 @@ exports.likeSauce = (req, res, next) => {
 
     }).then(
         (sauceTrouvee) => {
-            sauce = sauceTrouvee //résultat sauce récupéré
 
-            if (req.body.like === 1) { // Si j'aime = 1 
+            sauce = sauceTrouvee; //résultat sauce récupéré
+
+            if (like === 1) { // Si j'aime = 1 
                 sauce.updateOne({
 
                         $inc: { likes: +1 }, //incrémente likes +1
@@ -95,7 +97,7 @@ exports.likeSauce = (req, res, next) => {
                             res.status(400).json({ error: error });
                         });
 
-            } else if (req.body.like === -1) { // si j'aime = -1 
+            } else if (like === -1) { // si j'aime = -1 
 
                 sauce.updateOne({
 
@@ -110,9 +112,9 @@ exports.likeSauce = (req, res, next) => {
                             res.status(400).json({ error: error });
                         });
 
-            } else if (req.body.like === 0) { //Si j'aime = 0 alors ?
+            } else if (like === 0) { //Si j'aime = 0 alors ?
 
-                if (usersLiked.includes(bodyUser)) {
+                if (sauce.usersLiked.filter(dbUser => dbUser === bodyUser).length) {
 
                     sauce.updateOne({
 
@@ -128,7 +130,7 @@ exports.likeSauce = (req, res, next) => {
                             });
                 };
 
-                if (res.body.usersDisliked) {
+                if (sauce.usersDisliked.filter(dbUser => dbUser === bodyUser).length) {
 
                     //si user retire son dislike, décrémentes dislike de 1 et retire le dislike user de la BDD
                     sauce.updateOne({

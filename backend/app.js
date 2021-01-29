@@ -2,16 +2,22 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
-//use helmet
+const helmet = require("helmet");
+
+require('dotenv').config();
+
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const app = express();
 
-mongoose.connect('mongodb+srv://NikolasVolg:KRA2Y59duaxzgEi@bddp6.r8q3w.mongodb.net/<dbname>?retryWrites=true&w=majority', {
+app.use(helmet()); //headers sécurisés
+
+mongoose.connect(process.env.DB_LINK, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
+        useCreateIndex: true
     })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
