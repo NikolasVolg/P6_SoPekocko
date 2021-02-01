@@ -2,17 +2,20 @@ const Joi = require('joi');
 
 const sauceSchema = Joi.object({
     name: Joi.string()
-        .min(3)
-        .max(24),
+        .required(),
+
+
     manufacturer: Joi.string()
-        .min(3)
-        .max(24),
-    description: Joi.string()
-        .min(3)
-        .max(250),
+        .required(),
     mainPepper: Joi.string()
-        .min(3)
-        .max(350)
+        .required(),
+
+
+    description: Joi.string()
+        .required(),
+
+
+    heat: Joi.number()
 
 });
 

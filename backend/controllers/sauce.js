@@ -1,12 +1,12 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs');
-const user = require('../models/user');
-const sauceSchema = require('../middleware/schema/sauceSchema'); //bloque la création de sauce !!!
-
+const sauceSchemaControllers = require('../middleware/schema/sauceSchema'); //bloque la création de sauce !!!
 
 exports.createSauce = async(req, res, next) => {
     try {
-        const valid = await sauceSchema.validateAsync(req.body);
+
+        const valid = await sauceSchemaControllers.validateAsync(req.body);
+
         if (valid) {
 
             const sauceObject = JSON.parse(req.body.sauce);
@@ -22,7 +22,7 @@ exports.createSauce = async(req, res, next) => {
             throw error('input invalid');
         };
     } catch (error) {
-        res.status(400).json({ error });
+        res.status(500).json({ message: error.message });
     };
 };
 
