@@ -16,7 +16,7 @@ const apiLimiter = rateLimit({
 router.post('/', apiLimiter, auth, multer, sauceCtrl.createSauce);
 router.get('/', apiLimiter, auth, sauceCtrl.getAllSauce);
 router.get('/:id', apiLimiter, auth, sauceCtrl.getOneSauce);
-router.put('/:id', apiLimiter, auth, multer, sauceCtrl.modifySauce);
+router.put('/:id', auth, multer, sauceCtrl.modifySauce);
 router.delete('/:id', apiLimiter, auth, sauceCtrl.deleteSauce);
 
 //router like

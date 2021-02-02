@@ -1,11 +1,12 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs');
-const sauceSchemaControllers = require('../middleware/schema/sauceSchema'); //bloque la création de sauce !!!
+const sauceSchemaControllers = require('../middleware/schema/sauceSchema');
 
 exports.createSauce = async(req, res, next) => {
     try {
 
-        const valid = await sauceSchemaControllers.validateAsync(req.body);
+        const sauceObject = JSON.parse(req.body.sauce);
+        const valid = await sauceSchemaControllers.validateAsync(sauceObject);
 
         if (valid) {
 
@@ -40,6 +41,8 @@ exports.getOneSauce = (req, res, next) => {
 };
 
 exports.modifySauce = (req, res, next) => {
+
+
     const sauceObject = req.file ? {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
@@ -48,6 +51,7 @@ exports.modifySauce = (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Sauce modifié !' }))
         .catch(error => res.status(400).json({ error }));
 };
+
 
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
