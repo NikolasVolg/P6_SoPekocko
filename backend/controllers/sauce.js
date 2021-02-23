@@ -40,16 +40,28 @@ exports.getOneSauce = (req, res, next) => {
         });
 };
 
-exports.modifySauce = (req, res, next) => {
+exports.modifySauce = async(req, res, next) => {
 
+    try {
+        const sauceObject = req.file ? {
+            ...JSON.parse(req.body.sauce),
+            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : {...req.body };
 
-    const sauceObject = req.file ? {
-        ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : {...req.body };
-    Sauce.updateOne({ _id: req.params.id }, {...sauceObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Sauce modifié !' }))
-        .catch(error => res.status(400).json({ error }));
+        const isValid = await sauceSchemaControllers.validateAsync(sauceObject);
+
+        if (isValid) {
+            Sauce.updateOne({ _id: req.params.id }, {...sauceObject, _id: req.params.id })
+                .then(() => res.status(200).json({ message: 'Sauce modifié !' }))
+                .catch(error => res.status(400).json({ error }));
+
+        } else {
+            throw error('input invalid');
+        }
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 
@@ -134,7 +146,7 @@ exports.likeSauce = (req, res, next) => {
                     sauce.updateOne({
 
                             $inc: { likes: -1 }, //décrémente likes de 1
-                            $pull: { usersLiked: bodyUser } // retire le like du tableau
+                            $pull: { usersLiked: bodyUser } // retire l'utilisateur du tableau
                         })
                         .then(() => {
                             res.status(200).json({ message: "like retiré" });
