@@ -7,7 +7,7 @@ const sauceCtrl = require('../controllers/sauce');
 const multer = require('../middleware/multer-config');
 
 const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // fenêtre de 15 minutes
+    windowMs: 30 * 60 * 1000, // fenêtre de 15 minutes
     max: 20, // 20 requêtes max par fenêtre
 });
 

@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const userSchema = require('../middleware/schema/userSchema');
+const MaskData = require('maskdata');
 
 exports.signup = async(req, res, next) => {
     try {
@@ -10,7 +11,7 @@ exports.signup = async(req, res, next) => {
             bcrypt.hash(req.body.password, 10)
                 .then(hash => {
                     const user = new User({
-                        email: req.body.email,
+                        email: MaskData.maskEmail2(req.body.email),
                         password: hash
                     })
                     user.save()
@@ -30,7 +31,7 @@ exports.login = async(req, res, next) => {
     try {
         const valid = await userSchema.validateAsync(req.body);
         if (valid) {
-            User.findOne({ email: req.body.email })
+            User.findOne({ email: MaskData.maskEmail2(req.body.email) })
                 .then(user => {
                     if (!user) {
                         return res.status(401).json({ error: 'Utilisateur non trouvé !' });

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
 const joiSchema = Joi.object({
-    email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] } }),
+    email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr', 'org'] } }),
 
     password: Joi.string()
         .alphanum()
