@@ -11,6 +11,4 @@ Démarrer `ng serve` pour avoir accès au serveur de développement. Rendez-vous
 
 ## Accès BDD
 
-
-
-
+Un fichier .env-prod est fourni dans lequel il vous faudra entrer les identifiant de connection de votre cluster MongoDB, et le renommer en .env
