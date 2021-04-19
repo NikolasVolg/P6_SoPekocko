@@ -16,10 +16,10 @@ const apiLimiter = rateLimit({
 router.post('/', apiLimiter, auth, multer, sauceCtrl.createSauce);
 router.get('/', apiLimiter, auth, sauceCtrl.getAllSauce);
 router.get('/:id', apiLimiter, auth, sauceCtrl.getOneSauce);
-router.put('/:id', auth, multer, sauceCtrl.modifySauce);
-router.delete('/:id', apiLimiter, auth, sauceCtrl.deleteSauce);
+router.put('/:id', apiLimiter, auth, multer, sauceCtrl.modifySauce);
+router.delete('/:id', auth, sauceCtrl.deleteSauce);
 
 //router like
-router.post('/:id/like', apiLimiter, auth, sauceCtrl.likeSauce);
+router.post('/:id/like', auth, sauceCtrl.likeSauce);
 
 module.exports = router;
