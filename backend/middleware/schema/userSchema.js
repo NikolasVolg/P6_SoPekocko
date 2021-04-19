@@ -7,7 +7,7 @@ const joiSchema = Joi.object({
         .alphanum()
         .min(6)
         .max(16)
-        .pattern(new RegExp('^[a-zA-Z0-9]{6,16}$'))
+        .pattern(new RegExp('[a-zA-Z0-9]{6,16}$'))
 });
 
 module.exports = joiSchema;

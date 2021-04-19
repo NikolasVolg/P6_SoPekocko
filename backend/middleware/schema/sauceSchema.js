@@ -3,27 +3,27 @@ const Joi = require('joi');
 const sauceSchema = Joi.object({
     name: Joi.string()
         .min(3)
-        .max(24),
-    //.pattern(new RegExp('[a-zA-Z\- ]+$')),
+        .max(24)
+        .pattern(new RegExp('[a-zA-Z\- ]+$')),
 
     manufacturer: Joi.string()
         .min(3)
-        .max(36),
-    //.pattern(new RegExp('[a-zA-Z\- ]+$')),
+        .max(36)
+        .pattern(new RegExp('[a-zA-Z\- ]+$')),
 
     description: Joi.string()
         .min(3)
-        .max(350),
-    //.pattern(new RegExp('[a-zA-Z0-9\-\.\!\(\)\, ]+$')),
+        .max(350)
+        .pattern(new RegExp('[a-zA-Z0-9\-\.\!\(\)\, ]+$')),
 
     mainPepper: Joi.string()
         .min(3)
-        .max(250),
-    //.pattern(new RegExp('[a-zA-Z0-9\-\.\!\,\(\) ]+$')),
+        .max(250)
+        .pattern(new RegExp('[a-zA-Z0-9\-\.\!\,\(\) ]+$')),
 
-    //heat: Joi.number(),
+    heat: Joi.number(),
 
-    //userId: Joi.string()
+    userId: Joi.string()
 
 });
 
