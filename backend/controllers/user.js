@@ -56,6 +56,6 @@ exports.login = async(req, res, next) => {
             throw error('input invalid');
         }
     } catch {
-        rres.status(400).json({ error });
+        res.status(400).json({ error });
     }
 };
