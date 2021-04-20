@@ -1,8 +1,10 @@
-# on ignore les node-modules
+# on ignore les node-modules et les images
 
 node_modules/
 
 backend/node_modules/
+
+images
 
 # on ignore le fichier mdp mongodb et .env
 
